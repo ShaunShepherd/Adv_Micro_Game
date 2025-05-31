@@ -22,33 +22,45 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	//Scene parents
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UStaticMeshComponent* Cube_1;
+	USceneComponent* DefaultSceneRoot;
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UStaticMeshComponent* Cube_2;
+	USceneComponent* GeometryParent;
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UStaticMeshComponent* Cube_3;
+	USceneComponent* ExitCheckParent;
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UStaticMeshComponent* Cube_4;
+	USceneComponent* OverlapParent;
+
+	//Exit close componnenets
+	UPROPERTY(VisibleAnywhere, Category = "Componenets")
+	UStaticMeshComponent* Door_1;
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UStaticMeshComponent* Cube_5;
+	UStaticMeshComponent* Door_2;
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UStaticMeshComponent* Cube_6;
+	UStaticMeshComponent* Door_3;
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UStaticMeshComponent* Cube_7;
+	UStaticMeshComponent* Door_4;
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UStaticMeshComponent* Cube_8;
+	UArrowComponent* ExitArrow_1;
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UStaticMeshComponent* Floor;
+	UArrowComponent* ExitArrow_2;
 
+	UPROPERTY(VisibleAnywhere, Category = "Componenets")
+	UArrowComponent* ExitArrow_3;
+
+	UPROPERTY(VisibleAnywhere, Category = "Componenets")
+	UArrowComponent* ExitArrow_4;
+
+	//Other useful componenets
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
 	UBoxComponent* BoxCollision;
 
