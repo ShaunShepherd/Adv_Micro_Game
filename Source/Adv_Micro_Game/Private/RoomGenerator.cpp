@@ -2,6 +2,7 @@
 
 
 #include "RoomGenerator.h"
+#include "RoomBase.h"
 
 // Sets default values
 ARoomGenerator::ARoomGenerator()
@@ -16,6 +17,8 @@ void ARoomGenerator::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	SpawnStarterRoom();
+	SpawnNextRoom();
 }
 
 // Called every frame
@@ -25,3 +28,22 @@ void ARoomGenerator::Tick(float DeltaTime)
 
 }
 
+void ARoomGenerator::SpawnStarterRoom()
+{
+	ARoomBase* SpawnedStarterRoom = this->GetWorld()->SpawnActor<ARoomBase>(StarterRoom);
+
+	SpawnedStarterRoom->SetActorLocation(this->GetActorLocation());
+
+	SpawnedStarterRoom->ExitCheckParent->GetChildrenComponents(false, Exits);
+}
+
+void ARoomGenerator::SpawnNextRoom()
+{
+	ARoomBase* NextSpawnedRoom = this->GetWorld()->SpawnActor<ARoomBase>(RoomsToBeSpawned[rand() % RoomsToBeSpawned.Num()]);
+
+	float RandExitNumber = rand() % Exits.Num();
+
+	USceneComponent* SelectedExitPoint = Exits[RandExitNumber];
+
+	NextSpawnedRoom->SetActorLocationAndRotation(SelectedExitPoint->GetComponentLocation(), SelectedExitPoint->GetComponentRotation());
+}

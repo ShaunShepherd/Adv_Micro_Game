@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "RoomGenerator.generated.h"
 
+class ARoomBase;
+
 UCLASS()
 class ADV_MICRO_GAME_API ARoomGenerator : public AActor
 {
@@ -15,6 +17,18 @@ public:
 	ARoomGenerator();
 
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(EditAnywhere, Category = "Rooms")
+	TSubclassOf<ARoomBase> StarterRoom;
+
+	UPROPERTY(EditAnywhere, Category = "Rooms")
+	TArray<TSubclassOf<ARoomBase>> RoomsToBeSpawned;
+
+	TArray<USceneComponent*>Exits;
+
+	void SpawnStarterRoom();
+
+	void SpawnNextRoom();
 
 protected:
 	virtual void BeginPlay() override;

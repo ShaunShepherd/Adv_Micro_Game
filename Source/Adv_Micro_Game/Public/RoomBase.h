@@ -19,6 +19,9 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(VisibleAnywhere, Category = "Componenets")
+	USceneComponent* ExitCheckParent;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -29,8 +32,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
 	USceneComponent* GeometryParent;
 
-	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	USceneComponent* ExitCheckParent;
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
 	USceneComponent* OverlapParent;
