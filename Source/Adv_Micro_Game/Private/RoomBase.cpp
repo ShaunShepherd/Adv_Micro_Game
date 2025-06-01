@@ -12,6 +12,7 @@ ARoomBase::ARoomBase()
 	PrimaryActorTick.bCanEverTick = true;
 
 	DefaultSceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneRoot"));
+	ExitLocationParent = CreateDefaultSubobject<USceneComponent>(TEXT("ExitLocationParent"));
 	GeometryParent = CreateDefaultSubobject<USceneComponent>(TEXT("GeometryParent"));
 	OverlapParent = CreateDefaultSubobject<USceneComponent>(TEXT("OverlapParent"));
 	ExitCheckParent = CreateDefaultSubobject<USceneComponent>(TEXT("ExitCheckParent"));
@@ -31,10 +32,11 @@ ARoomBase::ARoomBase()
 	Arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow_Component"));
 
 	DefaultSceneRoot->SetupAttachment(RootComponent);
-	GeometryParent->SetupAttachment(DefaultSceneRoot);
-	OverlapParent->SetupAttachment(DefaultSceneRoot);
-	ExitCheckParent->SetupAttachment(DefaultSceneRoot);
-	Arrow->SetupAttachment(DefaultSceneRoot);
+	ExitLocationParent->SetupAttachment(DefaultSceneRoot);
+	GeometryParent->SetupAttachment(ExitLocationParent);
+	OverlapParent->SetupAttachment(ExitLocationParent);
+	ExitCheckParent->SetupAttachment(ExitLocationParent);
+	Arrow->SetupAttachment(ExitLocationParent);
 
 	ExitArrow_1->SetupAttachment(ExitCheckParent);
 	ExitArrow_2->SetupAttachment(ExitCheckParent);

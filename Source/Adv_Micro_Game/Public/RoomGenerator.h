@@ -24,9 +24,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Rooms")
 	TArray<TSubclassOf<ARoomBase>> RoomsToBeSpawned;
 
+	UPROPERTY(EditAnywhere, Category = "Generation Properties")
+	int32 RoomAmount;
+
 	TArray<USceneComponent*>Exits;
 
 	void SpawnStarterRoom();
+
+	void SpawnAllRooms();
 
 	void SpawnNextRoom();
 

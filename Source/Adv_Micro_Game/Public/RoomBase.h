@@ -20,7 +20,14 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
+	USceneComponent* ExitLocationParent;
+
+	UPROPERTY(VisibleAnywhere, Category = "Componenets")
 	USceneComponent* ExitCheckParent;
+
+	UPROPERTY(VisibleAnywhere, Category = "Componenets")
+	UArrowComponent* ExitArrow_1;
+
 
 protected:
 	virtual void BeginPlay() override;
@@ -31,7 +38,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
 	USceneComponent* GeometryParent;
-
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
 	USceneComponent* OverlapParent;
@@ -49,8 +55,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
 	UStaticMeshComponent* Door_4;
 
-	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UArrowComponent* ExitArrow_1;
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
 	UArrowComponent* ExitArrow_2;
