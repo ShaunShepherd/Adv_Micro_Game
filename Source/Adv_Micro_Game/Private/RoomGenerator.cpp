@@ -3,6 +3,7 @@
 
 #include "RoomGenerator.h"
 #include "RoomBase.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 ARoomGenerator::ARoomGenerator()
@@ -47,43 +48,107 @@ void ARoomGenerator::SpawnAllRooms()
 
 void ARoomGenerator::SpawnNextRoom()
 {
-	//Spawn a new room from the rooms to be spawned array
-	ARoomBase* NextSpawnedRoom = this->GetWorld()->SpawnActor<ARoomBase>(RoomsToBeSpawned[rand() % RoomsToBeSpawned.Num()]);
+	USceneComponent* SelectedExitPoint = nullptr;
+	USceneComponent* SelectedEntrancePoint = nullptr;
+	ARoomBase* NextSpawnedRoom = nullptr;
 
-	//Selecte an exit from the current room
-	USceneComponent* SelectedExitPoint = Exits[rand() % Exits.Num()];
+	//pick random exit and see if it can spawn a room, if it cannot delete it from exit array and pick new one
+	for (int i = 0; i < Exits.Num(); i++)
+	{
+		SelectedExitPoint = Exits[rand() % Exits.Num()];
 
+		ARoomBase* SpawnedRoom = CheckIfExitCanSpawnRoom(SelectedEntrancePoint, SelectedExitPoint);
+
+		if (SpawnedRoom == NULL)
+		{
+			//no valid rooms for this exit, delete exit from array 
+			Exits.Remove(SelectedExitPoint);
+		}
+		else
+		{
+			NextSpawnedRoom = SpawnedRoom;
+
+			//delete the wall at the selected entrance adn exit
+			SelectedEntrancePoint->GetChildComponent(0)->DestroyComponent();
+			SelectedExitPoint->GetChildComponent(0)->DestroyComponent();
+
+			Exits.Remove(SelectedExitPoint);
+
+			TArray<USceneComponent*>NextSpawnedRoomExits;
+			NextSpawnedRoom->ExitCheckParent->GetChildrenComponents(false, NextSpawnedRoomExits);
+			NextSpawnedRoomExits.Remove(SelectedEntrancePoint);
+			Exits.Append(NextSpawnedRoomExits);
+
+			SelectedEntrancePoint->DestroyComponent(false);
+			SelectedExitPoint->DestroyComponent(false);
+			break;
+		}
+	}
+}
+
+ARoomBase* ARoomGenerator::CheckIfExitCanSpawnRoom(USceneComponent*& SelectedEntrancePoint, USceneComponent*& SelectedExitPoint)
+{
+	TArray<TSubclassOf<ARoomBase>> RoomTypesTemp = RoomsToBeSpawned;
+	//loop through all room types and check if it overlapps
+	for (int i = 0; i < RoomTypesTemp.Num(); i++)
+	{
+		TSubclassOf<ARoomBase> RandomRoom = RoomTypesTemp[rand() % RoomTypesTemp.Num()];
+
+		ARoomBase* AttemptedSpawnedRoom = this->GetWorld()->SpawnActor<ARoomBase>(RandomRoom); //refactor to randomly pick 
+		SetPositionandRotationOfRoom(AttemptedSpawnedRoom, SelectedEntrancePoint, SelectedExitPoint);
+
+		if (!DoesRoomOverlap(AttemptedSpawnedRoom))
+		{
+			return AttemptedSpawnedRoom;
+		}
+		else
+		{
+			RoomTypesTemp.Remove(RandomRoom);
+			AttemptedSpawnedRoom->Destroy();
+		}
+	}
+	return nullptr;
+}
+
+void ARoomGenerator::SetPositionandRotationOfRoom(ARoomBase* SpawnedRoom, USceneComponent*& SelectedEntrancePoint, USceneComponent*& SelectedExitPoint)
+{
 	//Select entrance from new room
 	TArray<USceneComponent*> PotentialEntrances;
-	NextSpawnedRoom->ExitCheckParent->GetChildrenComponents(false, PotentialEntrances);
-	USceneComponent* SelectedEntrancePoint = PotentialEntrances[rand() % PotentialEntrances.Num()];
+	SpawnedRoom->ExitCheckParent->GetChildrenComponents(false, PotentialEntrances);
+	SelectedEntrancePoint = PotentialEntrances[rand() % PotentialEntrances.Num()];
 
 	//Offset and rotate to line up entrance and exit
-	NextSpawnedRoom->ExitLocationParent->SetRelativeRotation(SelectedEntrancePoint->GetComponentRotation());
+	SpawnedRoom->ExitLocationParent->SetRelativeRotation(SelectedEntrancePoint->GetComponentRotation());
 
 	float EntranceArrorYaw = SelectedEntrancePoint->GetComponentRotation().Yaw;
 
 	if (EntranceArrorYaw != -180)
 	{
-		FRotator CurrentRotation = NextSpawnedRoom->ExitLocationParent->GetComponentRotation();
+		FRotator CurrentRotation = SpawnedRoom->ExitLocationParent->GetComponentRotation();
 		CurrentRotation.Yaw += EntranceArrorYaw + 180;
-		NextSpawnedRoom->ExitLocationParent->SetWorldRotation(CurrentRotation);
+		SpawnedRoom->ExitLocationParent->SetWorldRotation(CurrentRotation);
 	}
 
-	NextSpawnedRoom->ExitLocationParent->SetRelativeLocation(-SelectedEntrancePoint->GetComponentLocation());
-	NextSpawnedRoom->SetActorLocationAndRotation(SelectedExitPoint->GetComponentLocation(), SelectedExitPoint->GetComponentRotation());
+	SpawnedRoom->ExitLocationParent->SetRelativeLocation(-SelectedEntrancePoint->GetComponentLocation());
+	SpawnedRoom->SetActorLocationAndRotation(SelectedExitPoint->GetComponentLocation(), SelectedExitPoint->GetComponentRotation());
 
-	//delete the wall at the selected entrance adn exit
-	SelectedEntrancePoint->GetChildComponent(0)->DestroyComponent();
-	SelectedExitPoint->GetChildComponent(0)->DestroyComponent();
-	
-	Exits.Remove(SelectedExitPoint);
+}
 
-	TArray<USceneComponent*>NextSpawnedRoomExits;
-	NextSpawnedRoom->ExitCheckParent->GetChildrenComponents(false, NextSpawnedRoomExits);
-	NextSpawnedRoomExits.Remove(SelectedEntrancePoint);
-	Exits.Append(NextSpawnedRoomExits);
+bool ARoomGenerator::DoesRoomOverlap(ARoomBase* TestedRoom)
+{
+	TArray<USceneComponent*> OverlappedRooms;
+	TestedRoom->OverlapParent->GetChildrenComponents(false, OverlappedRooms);
 
-	SelectedEntrancePoint->DestroyComponent(false);
-	SelectedExitPoint->DestroyComponent(false);
+	TArray<UPrimitiveComponent*> OverlappingComponents;
+
+	for (USceneComponent* Element : OverlappedRooms)
+	{
+		Cast<UBoxComponent>(Element)->GetOverlappingComponents(OverlappingComponents);
+	}
+
+	if (OverlappingComponents.Num() > 0)
+	{
+		return true;
+	}
+	return false;
 }

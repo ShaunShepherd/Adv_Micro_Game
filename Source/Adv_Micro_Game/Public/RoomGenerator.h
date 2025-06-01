@@ -35,8 +35,11 @@ public:
 
 	void SpawnNextRoom();
 
+	void SetPositionandRotationOfRoom(ARoomBase* SpawnedRoom, USceneComponent*& SelectedEntrancePoint, USceneComponent*& SelectedExitPoint);
+
+	ARoomBase* CheckIfExitCanSpawnRoom(USceneComponent*& SelectedEntrancePoint, USceneComponent*& SelectedExitPoint);
+
+	bool DoesRoomOverlap(ARoomBase* TestedRoom);
 protected:
 	virtual void BeginPlay() override;
-	
-
 };

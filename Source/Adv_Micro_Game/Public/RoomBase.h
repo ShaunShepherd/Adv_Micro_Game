@@ -26,8 +26,7 @@ public:
 	USceneComponent* ExitCheckParent;
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UArrowComponent* ExitArrow_1;
-
+	USceneComponent* OverlapParent;
 
 protected:
 	virtual void BeginPlay() override;
@@ -38,9 +37,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
 	USceneComponent* GeometryParent;
-
-	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	USceneComponent* OverlapParent;
 
 	//Exit close componnenets
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
@@ -55,6 +51,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
 	UStaticMeshComponent* Door_4;
 
+	UPROPERTY(VisibleAnywhere, Category = "Componenets")
+	UArrowComponent* ExitArrow_1;
 
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
 	UArrowComponent* ExitArrow_2;
