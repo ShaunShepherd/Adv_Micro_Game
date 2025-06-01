@@ -38,31 +38,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
 	USceneComponent* GeometryParent;
 
-	//Exit close componnenets
-	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UStaticMeshComponent* Door_1;
-
-	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UStaticMeshComponent* Door_2;
-
-	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UStaticMeshComponent* Door_3;
-
-	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UStaticMeshComponent* Door_4;
-
-	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UArrowComponent* ExitArrow_1;
-
-	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UArrowComponent* ExitArrow_2;
-
-	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UArrowComponent* ExitArrow_3;
-
-	UPROPERTY(VisibleAnywhere, Category = "Componenets")
-	UArrowComponent* ExitArrow_4;
-
 	//Other useful componenets
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
 	UBoxComponent* BoxCollision;

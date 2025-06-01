@@ -17,16 +17,6 @@ ARoomBase::ARoomBase()
 	OverlapParent = CreateDefaultSubobject<USceneComponent>(TEXT("OverlapParent"));
 	ExitCheckParent = CreateDefaultSubobject<USceneComponent>(TEXT("ExitCheckParent"));
 
-	Door_1 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door_1"));
-	Door_2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door_2"));
-	Door_3 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door_3"));
-	Door_4 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door_4"));
-
-	ExitArrow_1 = CreateDefaultSubobject<UArrowComponent>(TEXT("ExitArrow_1"));
-	ExitArrow_2 = CreateDefaultSubobject<UArrowComponent>(TEXT("ExitArrow_2"));
-	ExitArrow_3 = CreateDefaultSubobject<UArrowComponent>(TEXT("ExitArrow_3"));
-	ExitArrow_4 = CreateDefaultSubobject<UArrowComponent>(TEXT("ExitArrow_4"));
-
 	BoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Box_Collision"));
 
 	Arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow_Component"));
@@ -38,24 +28,9 @@ ARoomBase::ARoomBase()
 	ExitCheckParent->SetupAttachment(ExitLocationParent);
 	Arrow->SetupAttachment(ExitLocationParent);
 
-	ExitArrow_1->SetupAttachment(ExitCheckParent);
-	ExitArrow_2->SetupAttachment(ExitCheckParent);
-	ExitArrow_3->SetupAttachment(ExitCheckParent);
-	ExitArrow_4->SetupAttachment(ExitCheckParent);
-
-	Door_1->SetupAttachment(ExitArrow_1);
-	Door_2->SetupAttachment(ExitArrow_2);
-	Door_3->SetupAttachment(ExitArrow_3);
-	Door_4->SetupAttachment(ExitArrow_4);
-
-
 	BoxCollision->SetupAttachment(OverlapParent);
 
 	Arrow->bHiddenInGame = true;
-	ExitArrow_1->bHiddenInGame = true;
-	ExitArrow_2->bHiddenInGame = true;
-	ExitArrow_3->bHiddenInGame = true;
-	ExitArrow_4->bHiddenInGame = true;
 }
 
 // Called when the game starts or when spawned
