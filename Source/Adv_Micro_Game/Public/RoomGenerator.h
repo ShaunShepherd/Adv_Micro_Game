@@ -40,6 +40,7 @@ public:
 	ARoomBase* CheckIfExitCanSpawnRoom(USceneComponent*& SelectedEntrancePoint, USceneComponent*& SelectedExitPoint);
 
 	bool DoesRoomOverlap(ARoomBase* TestedRoom);
+
 protected:
 	virtual void BeginPlay() override;
 };
