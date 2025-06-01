@@ -81,6 +81,8 @@ void ARoomGenerator::SpawnNextRoom()
 
 			SelectedEntrancePoint->DestroyComponent(false);
 			SelectedExitPoint->DestroyComponent(false);
+
+			NextSpawnedRoom->CreatePlacementManager();
 			break;
 		}
 	}

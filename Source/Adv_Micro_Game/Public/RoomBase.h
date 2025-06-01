@@ -28,6 +28,15 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Componenets")
 	USceneComponent* OverlapParent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite ,Category = "Obstacle Placement Properties")
+	float PlacementBudget;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category = "Componenets")
+	USceneComponent* PlaceableLocations;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Create Placement Manager")
+	void CreatePlacementManager();
+
 protected:
 	virtual void BeginPlay() override;
 

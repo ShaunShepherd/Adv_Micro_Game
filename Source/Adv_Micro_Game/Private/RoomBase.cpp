@@ -16,6 +16,7 @@ ARoomBase::ARoomBase()
 	GeometryParent = CreateDefaultSubobject<USceneComponent>(TEXT("GeometryParent"));
 	OverlapParent = CreateDefaultSubobject<USceneComponent>(TEXT("OverlapParent"));
 	ExitCheckParent = CreateDefaultSubobject<USceneComponent>(TEXT("ExitCheckParent"));
+	PlaceableLocations = CreateDefaultSubobject<USceneComponent>(TEXT("PlaceableLocations"));
 
 	BoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Box_Collision"));
 
@@ -27,11 +28,13 @@ ARoomBase::ARoomBase()
 	OverlapParent->SetupAttachment(ExitLocationParent);
 	ExitCheckParent->SetupAttachment(ExitLocationParent);
 	Arrow->SetupAttachment(ExitLocationParent);
+	PlaceableLocations->SetupAttachment(ExitLocationParent);
 
 	BoxCollision->SetupAttachment(OverlapParent);
 
 	Arrow->bHiddenInGame = true;
 }
+
 
 // Called when the game starts or when spawned
 void ARoomBase::BeginPlay()
