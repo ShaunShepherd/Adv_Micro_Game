@@ -148,7 +148,6 @@ bool ARoomGenerator::DoesRoomOverlap(ARoomBase* TestedRoom)
 
 	if (OverlappingComponents.Num() > 0)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("There was an overlap"));
 		return true;
 	}
 	return false;
